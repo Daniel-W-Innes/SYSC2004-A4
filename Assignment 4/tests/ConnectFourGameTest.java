@@ -72,7 +72,7 @@ public class ConnectFourGameTest {
        // assertEquals(s, instance.toString() );
     }
     
-    
+    /*
     @Test
     public void testTakeTurnNotOnBottom() {
        ConnectFourGame instance = new ConnectFourGame(ConnectFourEnum.BLACK);
@@ -94,6 +94,6 @@ public class ConnectFourGameTest {
        }
 
     }
-
+	*/
 
 }

@@ -20,9 +20,9 @@ public class ConnectFourGame {
 	}
 	
 	public void reset(ConnectFourEnum initialTurn){
-		grid = new ConnectFourEnum[nRows][nColumns];
-		for (int y = 0; y<nColumns; ++y) {
-			for (int x = 0; x<nRows; ++x) {
+		grid = new ConnectFourEnum[nColumns][nRows];
+		for (int y = 0; y<nRows; ++y) {
+			for (int x = 0; x<nColumns; ++x) {
 				grid[x][y] = ConnectFourEnum.EMPTY;
 			}
 		}
@@ -32,8 +32,8 @@ public class ConnectFourGame {
 	
 	public void takeTurn(int row,int column){
 		if (row < nRows && column < nColumns) {
-			if (grid[row][column] == ConnectFourEnum.EMPTY) {
-				grid[row][column] = turn;
+			if (grid[column][row] == ConnectFourEnum.EMPTY) {
+				fall(row, column);
 				gameState = findWinner();
 				if (turn == ConnectFourEnum.RED)
 					turn = ConnectFourEnum.BLACK;
@@ -43,16 +43,31 @@ public class ConnectFourGame {
 		}
 	}
 	
+	private void fall(int row,int column) {
+		Boolean c = true;
+		while(c){
+			if (row+1<nRows) {
+				if (grid[column][row+1] == ConnectFourEnum.EMPTY) {
+					row++;
+				}else {
+					c = false;
+				}
+			}else {
+				c = false;
+			}
+		}
+		grid[column][row] = turn;
+	}
+	
 	private ConnectFourEnum findWinner() {
-
-		int i;
-		int j;
+		int y;
+		int x;
 		// Look through the grid and determine if any of the marks of the player who just went Are part of a victory.
-		for (i = 0; i < nRows; ++i) {
-			for (j = 0; j < nColumns; ++j) {
-				if (grid[i][j] == turn) {
-					if (isVictory(i, j)) {
-						return grid[i][j];
+		for (y = 0; y < nRows; ++y) {
+			for (x = 0; x < nColumns; ++x) {
+				if (grid[x][y] == turn) {
+					if (isVictory(x, y)) {
+						return grid[x][y];
 					}
 				}
 			}
@@ -101,7 +116,7 @@ public class ConnectFourGame {
 		}
 		// Counting the number of marks in a row in the positive X direction.
 		for (i = x + 1; i < x + numToWin; ++i) {
-			if (i < nRows) {
+			if (i < nColumns) {
 				if (grid[i][y].equals(p)) {
 					numHorizontal++;
 				} else {
@@ -111,7 +126,7 @@ public class ConnectFourGame {
 		}
 		// Counting the number of marks in a row in the positive Y direction.
 		for (i = y + 1; i < y + numToWin; ++i) {
-			if (i < nColumns) {
+			if (i < nRows) {
 				if (grid[x][i].equals(p)) {
 					numVertical++;
 				} else {
@@ -121,8 +136,8 @@ public class ConnectFourGame {
 		}
 		// Counting the number of marks in a row in the positive diagonal direction.
 		for (i = 1; i < numToWin; ++i) {
-			if (i + x < nRows) {
-				if (i + y < nColumns) {
+			if (i + x < nColumns) {
+				if (i + y < nRows) {
 					if (grid[i + x][i + y].equals(p)) {
 						numDiagonal++;
 					} else {
@@ -146,8 +161,8 @@ public class ConnectFourGame {
 	
 	public String toString() {
 		String output = "";
-		for (int y = 0; y<nColumns; ++y) {
-			for (int x = 0; x<nRows; ++x) {
+		for (int y = 0; y<nRows; ++y) {
+			for (int x = 0; x<nColumns; ++x) {
 				output += grid[x][y].toString() + " | ";
 			}
 			output += "\n";
