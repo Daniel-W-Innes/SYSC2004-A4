@@ -1,24 +1,32 @@
+import java.awt.Point;
+
 import javafx.scene.control.Button;
 
-public class ConnectButton extends Button{
-	private int row;
-	private int column;
-	
-	ConnectButton(String label, int row, int column){
-		this.row = row;
-		this.row = row;
+/**
+ * The Class ConnectButton.
+ */
+public class ConnectButton extends Button {
+
+	/** The button location. */
+	private Point location;
+
+	/**
+	 * Instantiates a new connect button.
+	 *
+	 * @param label    is the button label
+	 * @param location is the button location
+	 */
+	ConnectButton(String label, Point location) {
+		this.location = location;
 		setText(label);
 	}
 
-	public int getRow() {
-		return row;
-	}
-
-	public int getColumn() {
-		return column;
-	}
-	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.scene.control.Labeled#toString()
+	 */
 	public String toString() {
-		return "("+column+","+row+")";
+		return location.toString();
 	}
 }
